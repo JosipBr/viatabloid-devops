@@ -1,7 +1,6 @@
 version: "3.8"
 
 services:
-  # PostgreSQL Database Service
   db:
     image: "postgres:16"
     restart: always
@@ -15,12 +14,11 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 420690
 
-  # Spring Boot Backend Service
   backend:
     build:
       context: ./viatabloid-backend
       dockerfile: Dockerfile
-    image: "viatabloid-backend:latest"
+    image: "viatabloid-backend:v1.0.0"
     container_name: "viatabloid-backend-container"
     ports:
       - "8080:8080"
@@ -33,20 +31,16 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_WEB_CORS_ALLOWED-ORIGINS: http://localhost:5173
 
-  # React Frontend Service
   frontend:
     build:
       context: ./viatabloid-frontend
       dockerfile: Dockerfile
-    image: "viatabloid-frontend:latest"
+    image: "viatabloid-frontend:v1.0.0"
     container_name: "viatabloid-frontend-container"
     ports:
       - "5173:80"
     depends_on:
-      - backend # Frontend depends on the backend being up
-    # The frontend itself might not need direct backend env vars if it's hardcoded to localhost:8080 or uses relative paths
-    # However, if your React app needs to know the backend URL dynamically in a Docker context, you'd add environment variables here
-    # E.g., REACT_APP_BACKEND_URL: http://backend:8080 if your React build uses env vars for API URL
+      - backend
 
 volumes:
   db_data:
