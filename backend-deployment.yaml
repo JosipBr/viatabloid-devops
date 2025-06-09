@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.35.0 (HEAD)
+  labels:
+    io.kompose.service: backend
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: backend
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.35.0 (HEAD)
+      labels:
+        io.kompose.service: backend
+    spec:
+      containers:
+        - env:
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "420690"
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://db:5432/viatabloid_db
+            - name: SPRING_DATASOURCE_USERNAME
+              value: postgres
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: update
+            - name: SPRING_WEB_CORS_ALLOWED-ORIGINS
+              value: http://localhost:5173
+          image: viatabloid-backend:v1.0.0
+          name: viatabloid-backend-container
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+      restartPolicy: Always
