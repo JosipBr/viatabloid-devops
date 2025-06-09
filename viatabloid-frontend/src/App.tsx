@@ -9,7 +9,7 @@ interface Story {
   department: string;
 }
 
-const API_BASE_URL = "http://localhost:8080/api/stories"; // Your Spring Boot backend URL
+const API_BASE_URL = " http://127.0.0.1:56625/api/stories";
 
 function App() {
   const [stories, setStories] = useState<Story[]>([]);
