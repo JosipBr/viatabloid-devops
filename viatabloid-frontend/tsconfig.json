@@ -1,27 +1,37 @@
+// viatabloid-frontend/tsconfig.json
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "useDefineForClassFields": true,
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "target": "es2021", // Or "esnext" for the latest, or "es2020" if you need broader browser compatibility.
+    // This determines the JavaScript output version.
+
+    "lib": ["DOM", "DOM.Iterable", "ESNext"], // Crucial: This defines the built-in APIs available to your code.
+    // "DOM" and "DOM.Iterable" are for browser APIs.
+    // "ESNext" includes modern ECMAScript features (Set, Map, Promise.finally etc.).
+    // Make sure these are present.
+
+    "module": "ESNext", // Or "ES2020", "ES2022" depending on your Vite/bundler setup. "ESNext" is often fine.
+    "moduleResolution": "bundler", // IMPORTANT: Recommended for Vite and modern module resolution.
+    // Or "node16" if "bundler" causes issues, but "bundler" is preferred.
+
+    "isolatedModules": true, // Generally good for Vite
+    "jsx": "react-jsx", // Or "react" if not using the new JSX transform (React 17+)
+    "strict": true, // Highly recommended for type safety
+    "noEmit": true, // Vite/Rollup handles the actual JavaScript output, not tsc directly.
+    "skipLibCheck": true, // Helps prevent type errors from node_modules, often used in large projects.
+    // You can remove this if you want stricter checks on library types.
+
+    // Other common options, ensure they are present if needed:
     "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true, // Recommended for CommonJS interop with ES Modules
+    "esModuleInterop": true, // Recommended for CommonJS interop with ES Modules
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "types": [
-      "vitest/globals",
-      "@types/react",
-      "@types/react-dom",
-      "@testing-library/jest-dom"
-    ]
+
+    "types": ["node"] // IMPORTANT: Explicitly tell TypeScript to include Node.js type definitions.
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["src", "vite.config.ts"] // Ensure your source files and Vite config are included
+  // If you have a separate tsconfig for Node.js-specific files (e.g., vite.config.ts)
+  // that refers to Node types, you might have a references array like this:
+  // "references": [{ "path": "./tsconfig.node.json" }]
+  // If you have tsconfig.node.json, ensure it correctly includes `types: ["node"]` and appropriate `lib`.
 }
