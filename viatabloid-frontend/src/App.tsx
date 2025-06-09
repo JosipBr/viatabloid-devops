@@ -70,6 +70,17 @@ function App() {
     }
   };
 
+  const handleDelete = async (id: string) => {
+    console.log("Delete button clicked for ID:", id); // <-- ADD THIS
+    try {
+      await axios.delete(`/api/stories/${id}`);
+      console.log("axios.delete call successful!"); // <-- ADD THIS
+      // ... then refetch stories or update state
+    } catch (error) {
+      console.error("Error deleting story:", error); // <-- ADD THIS
+    }
+  };
+
   const startEditingStory = (story: Story) => {
     setEditingStory(story);
     setNewStoryTitle(story.title); // Populate form for editing
@@ -185,7 +196,12 @@ function App() {
                       <button onClick={() => startEditingStory(story)}>
                         Update
                       </button>
-                      <button onClick={() => deleteStory(story.id)}>
+                      <button
+                        onClick={() => {
+                          deleteStory(story.id);
+                          handleDelete(story.id);
+                        }}
+                      >
                         Delete
                       </button>
                     </div>
