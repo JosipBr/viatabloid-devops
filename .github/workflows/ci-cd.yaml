@@ -149,7 +149,7 @@ jobs:
         run: docker build -f viatabloid-frontend/Dockerfile -t viatabloid-frontend:v1.0.0 ./viatabloid-frontend
 
       - name: Build Backend Docker Image
-        run: docker build -f viatabloid-backend/Dockerfile -t viatabloid-backend:v1.0.0 .
+        run: docker build -f viatabloid-backend/Dockerfile -t viatabloid-backend:v1.0.0 ./viatabloid-backend
 
       - name: Verify Docker Images
         run: docker images
