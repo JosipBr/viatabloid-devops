@@ -133,6 +133,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Download Backend JAR
+        uses: actions/download-artifact@v4
+        with:
+          name: backend-jar
+          path: viatabloid-backend/target
+
       - name: Start Minikube
         id: minikube
         uses: medyagh/setup-minikube@latest
