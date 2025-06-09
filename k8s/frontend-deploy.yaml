@@ -1,0 +1,39 @@
+# k8s/frontend-deploy.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: viatabloid-frontend-deployment
+  labels:
+    app: viatabloid-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: viatabloid-frontend
+  template:
+    metadata:
+      labels:
+        app: viatabloid-frontend
+    spec:
+      containers:
+        - name: viatabloid-frontend-container
+          image: viatabloid-frontend:v1.0.0 # Match docker-compose image name
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80 # Nginx serves on port 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: viatabloid-frontend-service
+  labels:
+    app: viatabloid-frontend
+spec:
+  type: NodePort
+  selector:
+    app: viatabloid-frontend
+  ports:
+    - protocol: TCP
+      port: 5173 # Service port to match your docker-compose
+      targetPort: 80 # Container port
+      nodePort: 30000 # Choose an available port (30000-32767). Adjust if 5173 clashes.

@@ -1,0 +1,38 @@
+# k8s/backend-deploy.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: viatabloid-backend-deployment
+  labels:
+    app: viatabloid-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: viatabloid-backend
+  template:
+    metadata:
+      labels:
+        app: viatabloid-backend
+    spec:
+      containers:
+        - name: viatabloid-backend-container
+          image: viatabloid-backend:v1.0.0 # Match docker-compose image name
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080 # Spring Boot app runs on 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: viatabloid-backend-service
+  labels:
+    app: viatabloid-backend
+spec:
+  type: ClusterIP # Backend is typically ClusterIP for internal communication
+  selector:
+    app: viatabloid-backend
+  ports:
+    - protocol: TCP
+      port: 8080 # Service port
+      targetPort: 8080 # Container port

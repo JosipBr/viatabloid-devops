@@ -8,4 +8,5 @@ COPY ${JAR_FILE} app.jar
 
 EXPOSE 8080
 
+# Explicitly define the command to run your Spring Boot application
 ENTRYPOINT ["java", "-jar", "app.jar"]
