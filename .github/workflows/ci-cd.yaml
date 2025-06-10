@@ -146,19 +146,19 @@ jobs:
       - name: Verify Minikube Cluster
         run: kubectl get pods -A
 
-      - name: Configure Docker to use Minikube's Daemon
+      - name: Configure Docker and Build Images within Minikube's Daemon
         run: |
           export SHELL=/bin/bash
           eval $(minikube -p minikube docker-env)
 
-      - name: Build Frontend Docker Image
-        run: docker build -f viatabloid-frontend/Dockerfile -t viatabloid-frontend:v1.0.0 ./viatabloid-frontend
+          echo "--- Building Frontend Docker Image ---"
+          docker build -f viatabloid-frontend/Dockerfile -t viatabloid-frontend:v1.0.0 ./viatabloid-frontend
 
-      - name: Build Backend Docker Image
-        run: docker build -f viatabloid-backend/Dockerfile -t viatabloid-backend:v1.0.0 ./viatabloid-backend
+          echo "--- Building Backend Docker Image ---"
+          docker build -f viatabloid-backend/Dockerfile -t viatabloid-backend:v1.0.0 ./viatabloid-backend
 
-      - name: Verify Docker Images
-        run: docker images
+          echo "--- Verifying Docker Images in Minikube's Daemon ---"
+          docker images
 
       - name: Deploy to Minikube
         # Assuming k8s manifests are in a 'k8s' directory at the project root
